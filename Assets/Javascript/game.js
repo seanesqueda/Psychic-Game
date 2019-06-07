@@ -1,37 +1,46 @@
 //Create an array of letters for the computer to pick from
 var letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
-// Create a function such that when a key is pressed
-// the computer picks a random letter from the array
+//Choose a random letter from the array
+var randomLetter = letters[Math.floor(Math.random() * letters.length)];
+
+// Create variables to store info
+var wins = 0;
+var losses = 0;
+var guessesLeft = 10;
+
+// Create variables to store html
+var winText = document.getElementById("winCount");
+var lossText = document.getElementById("lossCount");
+var guessText = document.getElementById("guessCount");
+var letterText = document.getElementById("letterGuess");
+
+// Create a function for when the key is pressed
 document.onkeyup = function(e) {
-
-    // Create variables to store info
-    var win = 0;
-    var loss = 0;
-    var guessesLeft = 0;
-
-    // Create variables to store html
-    var winText = document.getElementById("winCount");
-    var lossText = document.getElementById("lossCount");
-    var guessText = document.getElementById("guessCount");
-    var letterText = document.getElementById("letterGuess");
-
-    // Store random computer pick
-    var randomLetter = letters[Math.floor(Math.random() * letters.length)];
-
-    // Store key that is pressed
-    var keyPress = e.key;
-
-    // Create if statement
-    //If user key and computer key match
+    
+    // Create variable for key press
+    var keyPress = e.key.toLowerCase();
+    
+    // Create if statement to check if user matches computer and edit values
     if (keyPress === randomLetter) {
-    winText.textContent = "Wins: " + win;
-    win++;
-    }
+        wins++;
+        winText.innerHTML = "Wins: " + wins;
+        guessText.innerHTML = "Guesses Left: 10";
+        letterText.innerHTML = "Your guesses so far: ";
+        guessesLeft = 10;
+        randomLetter = letters[Math.floor(Math.random() * letters.length)];
+    } 
     else {
-    lossText.textContent = "Losses: " + loss;
-    loss++;
+        guessesLeft--;
+        guessText.innerHTML = "Guesses Left: " + guessesLeft;
+        letterText.append(keyPress);
+        if (guessesLeft === 0) {
+            losses++;
+            lossText.innerHTML = "Losses: " + losses;
+            guessText.innerHTML = "Guesses Left: 10";
+            letterText.innerHTML = "Your guesses so far: ";
+            guessesLeft = 10;
+            randomLetter = letters[Math.floor(Math.random() * letters.length)];
+        }
     }
-    console.log(keyPress);
-    console.log(randomLetter);
 }
